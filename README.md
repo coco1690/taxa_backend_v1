@@ -21,6 +21,6 @@ npm install joi
 ```
 5.Para configurar los entitys y DTO se instala los siguientes paquetes.
 ```
-npm i class-validator class-transformer
+npm i class-validator class-transformer 
 ```
 
