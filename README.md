@@ -4,6 +4,10 @@
 
 # Taxa api 
 
+0.para correr el servidor se utiliza el sieguiente comando
+ ```
+ npm run start:dev
+ ```
 1.Levantar la base de datos.
 ```
 docker-compose up -d
@@ -22,5 +26,16 @@ npm install joi
 5.Para configurar los entitys y DTO se instala los siguientes paquetes.
 ```
 npm i class-validator class-transformer
+```
+6.En el main.ts configuro los pipes globales y el setGloblalPrefix
+```
+app.setGlobalPrefix('api/v1')
+
+app.useGlobalPipes(
+ new ValidationPipe({
+ whitelist: true,
+ forbidNonWhitelisted: true,
+ })
+);
 ```
 
