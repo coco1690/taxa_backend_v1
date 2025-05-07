@@ -55,4 +55,19 @@ app.useGlobalPipes(
  })
 );
 ```
+8.Para crea una rama nueva en git, Ej: git checkout -b nombre_de_la_rama
+```
+git checkout -b 
 
+```
+9.Si se desea cambia de rama con el comando git checkout y luego el nombre de la rama
+```
+git checkout main
+
+git checkout auth-module
+
+```
+10.Para comprobar en que rama estoy con el comando 
+```
+git branch
+```
