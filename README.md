@@ -70,4 +70,12 @@ git checkout auth-module
 10.Para comprobar en que rama estoy con el comando 
 ```
 git branch
+<<<<<<< HEAD
+=======
+```
+11.para configuarar el modulo de autenticacion se deben instalar los siguientes paquetes 
+```
+npm install @nestjs/jwt @nestjs/passport passport passport-jwt
+
+>>>>>>> auth-module
 ```

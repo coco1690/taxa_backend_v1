@@ -3,11 +3,12 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Country } from 'src/countries/entities/country.entity';
 import { handleDbQuery, handleDbSave } from 'src/utils/handle-db-errors';
+import { Role } from 'src/roles/entities/role.entity';
 
 
 @Injectable()
@@ -18,17 +19,17 @@ export class UsersService {
 
     @InjectRepository(Country)
     private readonly countryRepository: Repository<Country>,
+
+    @InjectRepository(Role)
+    private readonly roleRepository: Repository<Role>,
   ) {}
 
 
 
-
-
-  
   // 🤷‍♂️💡 Creo un Usuario
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const { countryCode, ...rest } = createUserDto;
+  async create(createUserDto: CreateUserDto ): Promise<User> {
+    const { countryCode, rolesId=[],  ...rest } = createUserDto;
 
     const country = await handleDbQuery( // funcion manejador de errores DB para consultar en base de datos
       this.countryRepository.findOneBy({ countryCode }),
@@ -44,10 +45,26 @@ export class UsersService {
       );
     }
 
+    const rolesIds = rolesId
+
+    if (!rolesId || rolesId.length === 0) {
+      throw new BadRequestException('Debe proporcionar al menos un rol');
+    }
+      
+    const roles = await handleDbQuery(
+      this.roleRepository.findBy({ id: In(rolesIds)})
+    )
+
+   
     const user = this.userRepository.create({
       ...rest,
       country,
+      
     });
+
+    user.roles = roles
+    user.isPhoneVerified = true // lo puedes cambiar si haces verificación real con Twilio en este momento esta forzado el valor true
+
 
     const savedUser = await handleDbSave(this.userRepository.save(user)); // funcion manejador de errores DB para guardar en base de datos
     return savedUser;
@@ -57,7 +74,7 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return await handleDbQuery(
-      this.userRepository.find({ relations: ['country'] }),
+      this.userRepository.find({ relations: ['roles','country'] }),
     );
   }
   
@@ -65,7 +82,7 @@ export class UsersService {
 
   async findOne(id: number): Promise<User> {
     const user = await handleDbQuery(
-      this.userRepository.findOne({ where: { id }, relations: ['country'] }),
+      this.userRepository.findOne({ where: { id }, relations: ['roles','country'] }),
     );
 
     if (!user) {

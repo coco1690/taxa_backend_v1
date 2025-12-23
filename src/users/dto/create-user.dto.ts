@@ -7,6 +7,7 @@ import {
     Matches,
     MinLength,
     MaxLength,
+    IsArray,
   } from 'class-validator';
   
   export class CreateUserDto {
@@ -22,18 +23,33 @@ import {
     @Matches(/^\+\d{1,4}$/, { message: 'El dialCode debe comenzar con "+" seguido de 1 a 4 dígitos' })
     dialCode: string; // Ej: +57
   
-    @IsOptional()
+    // @IsOptional()
     @IsEmail()
+    @IsNotEmpty()
     email: string;
 
     @IsString()
+    @IsOptional( )
+    image?: string;
+
+    @IsString()
+    @IsOptional( )
+    notification_token?: string;
+
+    @IsNotEmpty()
+    @IsString()
+    verificationCode: string;
+
+
+    @IsString()
+    @IsNotEmpty()
     @MinLength(6)
     @MaxLength(50)
-    @IsOptional()
-    @Matches(
-        /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-        message: 'The password must have a Uppercase, lowercase letter and a number'
-    })
+    // @IsOptional()
+    // @Matches(
+    //     /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    //     message: 'The password must have a Uppercase, lowercase letter and a number'
+    // })
     password: string;
   
     @IsNotEmpty()
@@ -43,5 +59,9 @@ import {
     @IsOptional()
     @IsNumber()
     agencyId?: number; // Solo si es un driver que pertenece a una agencia
+
+    @IsString({ each:true})
+    @IsArray()
+    rolesId?: string[]
   }
   
