@@ -71,3 +71,8 @@ git checkout auth-module
 ```
 git branch
 ```
+11.para configuarar el modulo de autenticacion se deben instalar los siguientes paquetes 
+```
+npm install @nestjs/jwt @nestjs/passport passport passport-jwt
+
+```

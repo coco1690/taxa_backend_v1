@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { envs } from './config/envs';
 import { UsersModule } from './users/users.module';
 import { CountriesModule } from './countries/countries.module';
+import { AuthModule } from './auth/auth.module';
+import { RolesModule } from './roles/roles.module';
 
 
 @Module({
@@ -22,6 +24,10 @@ import { CountriesModule } from './countries/countries.module';
     UsersModule,
 
     CountriesModule,
+
+    AuthModule,
+
+    RolesModule,
   ],
   controllers: [],
   providers: [],
