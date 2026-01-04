@@ -35,7 +35,7 @@ export class User {
     password: string;
 
     @Column('text', { nullable: true })
-    image: string;
+    image?: string;
 
     @Column({ default: true })
     isActive: boolean;

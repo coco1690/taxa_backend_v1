@@ -35,7 +35,8 @@ export class RegisterAuthDto {
 
     @IsNotEmpty()
     @IsString()
-    verificationCode: string;
+    @IsOptional()
+    verificationCode?: string;
 
     @IsNumber()
     @IsArray()

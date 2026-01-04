@@ -1,67 +1,67 @@
 import {
-    IsNotEmpty,
-    IsEmail,
-    IsOptional,
-    IsNumber,
-    IsString,
-    Matches,
-    MinLength,
-    MaxLength,
-    IsArray,
-  } from 'class-validator';
-  
-  export class CreateUserDto {
-    @IsNotEmpty()
-    @IsString()
-    fullName: string;
-  
-    @IsNotEmpty()
-    @IsString()
-    phone: string;
-  
-    @IsNotEmpty()
-    @Matches(/^\+\d{1,4}$/, { message: 'El dialCode debe comenzar con "+" seguido de 1 a 4 dígitos' })
-    dialCode: string; // Ej: +57
-  
-    // @IsOptional()
-    @IsEmail()
-    @IsNotEmpty()
-    email: string;
+  IsNotEmpty,
+  IsEmail,
+  IsOptional,
+  IsNumber,
+  IsString,
+  Matches,
+  MinLength,
+  MaxLength,
+  IsArray,
+} from 'class-validator';
 
-    @IsString()
-    @IsOptional( )
-    image?: string;
+export class CreateUserDto {
+  @IsNotEmpty()
+  @IsString()
+  fullName: string;
 
-    @IsString()
-    @IsOptional( )
-    notification_token?: string;
+  @IsNotEmpty()
+  @IsString()
+  phone: string;
 
-    @IsNotEmpty()
-    @IsString()
-    verificationCode: string;
+  @IsNotEmpty()
+  @Matches(/^\+\d{1,4}$/, { message: 'El dialCode debe comenzar con "+" seguido de 1 a 4 dígitos' })
+  dialCode: string; // Ej: +57
+
+  // @IsOptional()
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsOptional()
+  image?: string;
+
+  @IsString()
+  @IsOptional()
+  notification_token?: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @IsOptional()
+  verificationCode?: string;
 
 
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(6)
-    @MaxLength(50)
-    // @IsOptional()
-    // @Matches(
-    //     /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    //     message: 'The password must have a Uppercase, lowercase letter and a number'
-    // })
-    password: string;
-  
-    @IsNotEmpty()
-    @Matches(/^[A-Z]{2}$/, { message: 'El countryCode debe ser un código ISO como CO o US' })
-    countryCode: string; // Ej: CO
-  
-    @IsOptional()
-    @IsNumber()
-    agencyId?: number; // Solo si es un driver que pertenece a una agencia
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(6)
+  @MaxLength(50)
+  // @IsOptional()
+  // @Matches(
+  //     /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+  //     message: 'The password must have a Uppercase, lowercase letter and a number'
+  // })
+  password: string;
 
-    @IsString({ each:true})
-    @IsArray()
-    rolesId?: string[]
-  }
-  
+  @IsNotEmpty()
+  @Matches(/^[A-Z]{2}$/, { message: 'El countryCode debe ser un código ISO como CO o US' })
+  countryCode: string; // Ej: CO
+
+  @IsOptional()
+  @IsNumber()
+  agencyId?: number; // Solo si es un driver que pertenece a una agencia
+
+  @IsString({ each: true })
+  @IsArray()
+  rolesId?: string[]
+}
