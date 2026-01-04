@@ -119,17 +119,6 @@ export class AuthService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
   // 📲 Registro para CLIENTES (App Cliente)
 
   async registerClient(dto: RegisterAuthDto) {
@@ -156,23 +145,29 @@ export class AuthService {
 
   // ✅ Registro genérico con verificación y rol
 
-  private async registerWithRole(dto: RegisterAuthDto) {
-    const isVerified = await this.verifyCode(dto.phone, dto.verificationCode);
-    if (!isVerified) {
-      throw new UnauthorizedException('Código de verificación inválido');
-    }
-
-    const user = await handleDbQuery(
-      this.usersService.create(dto),
-    );
-
-    const token = await this.jwtService.signAsync({ sub: user.id });
-
-    return {
-      token,
-      user,
-    };
+ private async registerWithRole(dto: RegisterAuthDto) {
+  if (!dto.verificationCode) {
+    throw new BadRequestException('El código de verificación es requerido');
   }
+
+  const isVerified = await this.verifyCode(dto.phone, dto.verificationCode);
+  if (!isVerified) {
+    throw new UnauthorizedException('Código de verificación inválido');
+  }
+
+  const { verificationCode, ...userData } = dto;
+
+  const user = await handleDbQuery(
+    this.usersService.create(userData),
+  );
+
+  const token = await this.jwtService.signAsync({ sub: user.id });
+
+  return {
+    token,
+    user,
+  };
+}
 
 
   // ✅ Enviar código SMS (Twilio o simulado)
